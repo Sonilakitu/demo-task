@@ -26,6 +26,20 @@
     font-size: 2em;
 }
 
-.btn-primary {
+.btn-primary .btn-outline-primary {
     width: 80%;
+}
+/* CSS for user card container */
+#userCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* Adjust the gap between user cards as needed */
+}
+
+/* CSS for individual user card */
+.userCards {
+    width: calc(20% - 10px);
+    /* 20% width for each card with a 10px gap between them */
+    margin-bottom: 10px;
 }

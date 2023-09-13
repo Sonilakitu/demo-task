@@ -28,7 +28,8 @@
                             <p>Email support</p>
                             <p>Help center access</p>
                         </ul>
-                        <button class="btn pricing-button" data-toggle="modal" id="1" data-target="#modalForm">Signup for
+                        <button class="btn pricing-button" data-toggle="modal" id="1" data-target="#modalForm">Signup
+                            for
                             free</button>
                     </div>
                 </div>
@@ -71,8 +72,10 @@
     </div>
 
     <!-- Slider -->
-    <input type="range" min="0" max="30" step="1" value="0" id="priceSlider" class="form-range" />
-    
+    <input type="range" min="0" max="40" step="1" value="0" id="priceSlider" class="form-range" />
+
+    <!-- Add this container where user cards will be displayed -->
+    <div class="container" id="userCards"></div>
     <script>
         const slider = document.getElementById("priceSlider");
         const button1 = document.getElementById("1");
@@ -80,7 +83,6 @@
         const button3 = document.getElementById("3");
 
         let userData = [];
-
 
         // Function to update the button color based on the slider position
         function updateButtonColor(sliderValue) {
@@ -92,7 +94,7 @@
                 button1.classList.add("btn-primary");
                 button2.classList.add("btn-outline-primary");
                 button3.classList.add("btn-primary");
-            } else if (sliderValue >= 20 && sliderValue < 30) {
+            } else if (sliderValue >= 20) {
                 // Button 3 should be outline and rest should be primary
                 button1.classList.remove("btn-outline-primary");
                 button2.classList.remove("btn-outline-primary");
@@ -100,7 +102,7 @@
                 button1.classList.add("btn-primary");
                 button2.classList.add("btn-primary");
                 button3.classList.add("btn-outline-primary");
-            } else {
+            } else if (sliderValue < 10) {
                 // Button 1 should be outline and rest should be primary
                 button1.classList.remove("btn-primary");
                 button2.classList.remove("btn-outline-primary");
@@ -111,16 +113,57 @@
             }
         }
 
+            // Function to make the API call and update user data
+            function fetchDataAndUpdateUserData(size) {
+                fetch(`https://random-data-api.com/api/users/random_user?size=${size}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        userData = userData.concat(data);
+                        renderUserCards(data);
+                    })
+                    .catch(error => console.error(error));
+            }
+
+            // Function to render user cards
+            function renderUserCards(data) {
+                const cardContainer = document.getElementById("userCards");
+                cardContainer.innerHTML = ""; // Clear previous cards
+
+                data.forEach(user => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.innerHTML = `
+                    <div class="card-body">
+                        <h5>Name : ${user.first_name}</h5>
+                        <p>Email : ${user.email}</p>
+                        <p>Phone: ${user.phone_number}</p>
+                    </div>
+                `;
+
+                    cardContainer.appendChild(card);
+                });
+            }
+
         // Add an event listener to the slider's input event
         slider.addEventListener("input", function () {
             const sliderValue = parseInt(slider.value);
 
+            // Check if the sliderValue is a multiple of 10
+            if (sliderValue % 10 === 0) {
+                // Calculate the size for the API call
+                const size = userData.length + 10;
+                fetchDataAndUpdateUserData(size);
+            }
+
+            // Update the button color based on the slider position
             updateButtonColor(sliderValue);
         });
 
-
-        updateButtonColor(0); 
+            // Initial update of button color and user data
+            updateButtonColor(0);
+            fetchDataAndUpdateUserData(10); // Initial fetch with size 10
     </script>
+
 
 </body>
 
