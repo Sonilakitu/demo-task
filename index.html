@@ -12,41 +12,6 @@
 
 <body>
 
-    <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="modalFormLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalFormLabel">Fill out the form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="comments">Order Comments</label>
-                            <textarea class="form-control" id="comments" rows="3"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <!-- For Pricing card -->
     <div class="container">
         <div class="row justify-content-center">
@@ -63,7 +28,7 @@
                             <p>Email support</p>
                             <p>Help center access</p>
                         </ul>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modalForm">Signup for
+                        <button class="btn pricing-button" data-toggle="modal" id="1" data-target="#modalForm">Signup for
                             free</button>
                     </div>
                 </div>
@@ -81,7 +46,7 @@
                             <p>Priority email support</p>
                             <p>Help center access</p>
                         </ul>
-                        <button class="btn btn-primary">Get Started</button>
+                        <button id="2" class="btn pricing-button">Get Started</button>
                     </div>
                 </div>
             </div>
@@ -98,12 +63,64 @@
                             <p>Phone and email support</p>
                             <p>Help center access</p>
                         </ul>
-                        <button class="btn btn-primary">Constact Us</button>
+                        <button id="3" class="btn pricing-button">Constact Us</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Slider -->
+    <input type="range" min="0" max="30" step="1" value="0" id="priceSlider" class="form-range" />
+    
+    <script>
+        const slider = document.getElementById("priceSlider");
+        const button1 = document.getElementById("1");
+        const button2 = document.getElementById("2");
+        const button3 = document.getElementById("3");
+
+        let userData = [];
+
+
+        // Function to update the button color based on the slider position
+        function updateButtonColor(sliderValue) {
+            if (sliderValue >= 10 && sliderValue < 20) {
+                // Button 2 should be outline and rest should be primary
+                button1.classList.remove("btn-outline-primary");
+                button2.classList.remove("btn-primary");
+                button3.classList.remove("btn-primary");
+                button1.classList.add("btn-primary");
+                button2.classList.add("btn-outline-primary");
+                button3.classList.add("btn-primary");
+            } else if (sliderValue >= 20 && sliderValue < 30) {
+                // Button 3 should be outline and rest should be primary
+                button1.classList.remove("btn-outline-primary");
+                button2.classList.remove("btn-outline-primary");
+                button3.classList.remove("btn-primary");
+                button1.classList.add("btn-primary");
+                button2.classList.add("btn-primary");
+                button3.classList.add("btn-outline-primary");
+            } else {
+                // Button 1 should be outline and rest should be primary
+                button1.classList.remove("btn-primary");
+                button2.classList.remove("btn-outline-primary");
+                button3.classList.remove("btn-outline-primary");
+                button1.classList.add("btn-outline-primary");
+                button2.classList.add("btn-primary");
+                button3.classList.add("btn-primary");
+            }
+        }
+
+        // Add an event listener to the slider's input event
+        slider.addEventListener("input", function () {
+            const sliderValue = parseInt(slider.value);
+
+            updateButtonColor(sliderValue);
+        });
+
+
+        updateButtonColor(0); 
+    </script>
 
 </body>
 
